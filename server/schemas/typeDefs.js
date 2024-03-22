@@ -45,4 +45,4 @@ const typeDefs = `
     }
 `;
 
-module.export = typeDefs;
+module.exports = typeDefs;
