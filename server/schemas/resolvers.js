@@ -5,7 +5,7 @@ const resolvers = {
         users: async () => {
             return await User.find({}).populate('savedBooks').populate({
                 path: 'savedBooks',
-                populate: 'authors'
+                populate: { path: 'authors' }
             });
         },
 
