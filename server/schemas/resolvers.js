@@ -11,28 +11,28 @@ const resolvers = {
         },
     },
     Mutation: {
-        login: async (parent, { email, password }, context) => {
-            const user = await context.loginUser(email, password);
-            const token = context.signToken(user);
+        login: async (parent, { email, password }) => {
+            const user = await User.loginUser(email, password);
+            const token = signToken(user);
             return {
                 user,
                 token,
             };
         },
-        addUser: async (parent, { username, email, password }, context) => {
-            const newUser = await context.createUser(username, email, password);
-            const token = context.signToken(newUser);
-            return {
-                user: newUser,
-                token: token,
-            };
+        addUser: async (parent, { username, email, password }) => {
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+            return { token, user };
         },
-        saveBook: async (parent, { input }, context) => {
-            const updatedUser = await context.saveBookForUser(input);
+        saveBook: async (parent, { input }, { user }) => {
+            if (!user) {
+                throw new Error('You must be logged in to save a book.');
+            }
+            const updatedUser = await User.saveBookForUser(input);
             return updatedUser;
         },
-        removeBook: async (parent, { bookId }, context) => {
-            const updatedUser = await context.removeBookForUser(bookId);
+        removeBook: async (parent, { bookId }) => {
+            const updatedUser = await User.removeBookForUser(bookId);
             return updatedUser;
         },
     },

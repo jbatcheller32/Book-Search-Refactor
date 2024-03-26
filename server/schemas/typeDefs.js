@@ -19,8 +19,8 @@ const typeDefs = `
     }
 
     type Auth {
-        token: ID!
-        user: User
+        token: String!
+        user: User!
     }
 
     type Query {
@@ -32,8 +32,8 @@ const typeDefs = `
         description: String!
         title: String!
         bookId: String!
-        image: String!
-        link: String!
+        image: String
+        link: String
     }
 
     type Mutation {
